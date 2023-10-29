@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regsitro_de_turno</title>
+</head>
+<body>
+    <h1>REGISTRO DE TURNOS</h1>
+    <h2>Usuario</h2>
+    <input type="date" id="fechaTurno" min="" max="" required>
+    <form id="formulario" action="#" method="GET" enctype="multipart/form-data">
+      <label>Seleccione la clase:</label>
+      <select name="clase" id="Clase" required>
+        <option>Open Box</option>
+        <option>Sesion Fitnes</option>
+        <option>Spining</option>
+        <option>CrossFit</option>
+      </select>
+      <h2>Selección de Turno</h2>
+      <label>Seleccione la clase:</label>
+      <select name="turno" id="seleccionTurno" required>
+        <option>Turno Mañana</option>
+        <option>Turno Tarde</option>
+      </select>
+      <h2>Turnos Disponibles</h2>
+      <select name="turnoManana" id="turnoManana" required style="display: none;">
+        <option>8 a 9 hs</option>
+        <option>9 a 10 hs</option>
+        <option>10 a 11 hs</option>
+        <option>11 a 12 hs</option>
+      </select>
+      <select name="turnoTarde" id="turnoTarde" required style="display: none;">
+        <option>14 a 15 hs</option>
+        <option>15 a 16 hs</option>
+        <option>16 a 17 hs</option>
+      </select>
+
+      <h2>Confirmación de turno</h2>
+      <input id="Reservar" type="submit" value="Reservar" />
+      <input id="reset" type="reset" value="Cancelar" />
+    </form>
+    <ul id="alumnos"></ul>
+
+  </body>
+  
+    <script src="main.js"></script>
+</html>

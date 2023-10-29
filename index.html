@@ -3,13 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>entrega-01</title>
+    <title>Loging</title>
+
+    <style>
+      input {
+        display: block;
+      }
+      
+    </style>
 </head>
 <body>
-    <h1>DOLCE BOT</h1>
-    
-</body>
+  <h1>Loging Usuario</h1>
+  <form id="formularioIngresar" action="#" method="GET" enctype="multipart/form-data">
+      <h2>Inicie Sesión</h2>
+      <input id="usuario" type="text" placeholder="Usuario" required/>
+      <input id="contraseña" type="password" placeholder="Contraseña" required />
+      <button id="iniciarSesion" type="submit">Iniciar</button>
+  </form>
 
-<script src="main.js"></script>
+  <form id="formularioRegistrar" style="padding-top: 20px;">
+    <button id="nuevoUsuario" onclick="mostrarCampos()" type="button">Registrar nuevo usuario</button>
+    <div id="nuevosInput" style="display: none;"> 
+      <input id="nombreUsuario" type="text" placeholder="Ingrese un nombre de usuario">
+      <input id="nuevaContraseña" type="password" placeholder="Ingrese una contraseña">
+      <button onclick="crearNuevoUsuario()" id="crearUsuario" type="button">Crear Usuario</button>
+    </div>
+
+  </form>
+
+  <ul id="alumnos"></ul>
+
+  <script src="main.js"></script>
+
+</body>
 
 </html>

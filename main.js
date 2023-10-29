@@ -1,184 +1,138 @@
-for (let i=0; i<2;i++){  
-  // Objeto que almacenará la información del usuario
-  const usuario = {
-    nombre: "",
-    clase: "",
-    turno: "",
-    horario: "",
+let usuarios = []; // Array para almacenar usuarios
+function obtenerProximoId() {
+  return usuarios.length + 1;
+}
+
+function mostrarCampos() {
+    const nuevosInput = document.getElementById('nuevosInput');
+    nuevosInput.style.display = 'block'; // Mostrar los campos ocultos
+}
+
+//funcion crear nuevos usuarios
+
+function guardarUsuariosEnLocalStorage() {
+  localStorage.setItem('usuarios', JSON.stringify(usuarios));
+}
+
+function crearNuevoUsuario() {
+  const nuevoUsuario = document.getElementById('nombreUsuario').value;
+  const nuevaContraseña = document.getElementById('nuevaContraseña').value;
+
+  const nuevoUsuarioObj = {
+      id: obtenerProximoId(),
+      usuario: nuevoUsuario,
+      contraseña: nuevaContraseña
   };
-  
-  // Array de usuarios
-  const usuarios = [
-    {
-      nombreUsuario: "juanEjemplo",
-      contraseña: "1234",
-      nombre: "",
-      clase: "",
-      turno: "",
-      horario: "",
-    },
-    {
-      nombreUsuario: "CarlosPrueba",
-      contraseña: "1234",
-      nombre: "",
-      clase: "",
-      turno: "",
-      horario: "",
-    },
+
+  usuarios.push(nuevoUsuarioObj);
+  guardarUsuariosEnLocalStorage(); // Guardar el array en el localStorage
+
+  alert('¡Registro de usuario exitoso! Ahora puede iniciar sesión');
+  console.log('Nuevo usuario creado:');
+  console.log(nuevoUsuarioObj);
+}
+
+// Función para iniciar sesión
+function iniciarSesion() {
+  const usuarioInput = document.getElementById('usuario').value;
+  const contraseñaInput = document.getElementById('contraseña').value;
+
+  // Obtener los usuarios del localStorage
+  const usuariosFromLocalStorage = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+  const usuarioEncontrado = usuariosFromLocalStorage.find(usuario => {
+      return usuario.usuario === usuarioInput && usuario.contraseña === contraseñaInput;
+  });
+
+  if (usuarioEncontrado) {
     
-  ];
-  
-  // Función para iniciar el chatbot
-  function iniciarChatbot() {
-    alert("Hola, bienvenido. Mi nombre es DolceBot y te voy a estar guiando para que puedas sacar tu turno de entrenamiento.");
-  
-    const opcion = prompt("¿Qué desea hacer?\n1. Iniciar sesión\n2. Registrarse");
-  
-    if (opcion === "1") {
-      const nombreUsuario = prompt("Ingrese su nombre de usuario:");
-      const contraseña = prompt("Ingrese su contraseña:");
-  
-      // Verifica si las credenciales son correctas
-      const usuarioEncontrado = usuarios.find(
-        (usuario) =>
-          usuario.nombreUsuario === nombreUsuario && usuario.contraseña === contraseña
-      );
-  
-      if (usuarioEncontrado) {
-        alert(`Bienvenido, ${nombreUsuario}!`);
-        usuario.nombre = nombreUsuario;
-  
-        // Continúa con el proceso de selección de clase, turno y horario
-        pedirTurno();
-      } else {
-        alert("Credenciales incorrectas. Inténtelo de nuevo o regístrese.");
-        iniciarChatbot();
-      }
-    } else if (opcion === "2") {
-      registrarUsuario();
-    } else {
-      alert("Opción no válida. Por favor, seleccione 1 para iniciar sesión o 2 para registrarse.");
-      iniciarChatbot();
-    }
+    window.location.href = './registro_turno.html';
+    alert('¡Bienvenido!');
+  } else {
+      alert('Usuario o contraseña incorrectos');
   }
-  
-  // Función para registrar un nuevo usuario
-  function registrarUsuario() {
-    const nuevoUsuario = {
-      nombreUsuario: prompt("Ingrese un nombre de usuario:"),
-      contraseña: prompt("Ingrese una contraseña:"),
-      nombre: "",
-      clase: "",
-      turno: "",
-      horario: "",
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const botonIniciarSesion = document.getElementById('iniciarSesion');
+  botonIniciarSesion.addEventListener('click', iniciarSesion);
+});
+
+//HTML registro_turno
+
+function getFormattedDate(date) {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const fechaTurnoInput = document.getElementById('fechaTurno');
+    
+    const hoy = new Date(); // Fecha actual
+    const sieteDiasDespues = new Date(hoy); // Fecha para los próximos 7 días
+    sieteDiasDespues.setDate(sieteDiasDespues.getDate() + 7);
+
+    // Formatear fechas para el campo 'date'
+    const hoyFormateado = getFormattedDate(hoy);
+    const sieteDiasDespuesFormateado = getFormattedDate(sieteDiasDespues);
+
+    // Establecer los atributos min y max en el campo de fecha
+    fechaTurnoInput.min = hoyFormateado;
+    fechaTurnoInput.max = sieteDiasDespuesFormateado;
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const seleccionTurno = document.getElementById('seleccionTurno');
+  const turnoManana = document.getElementById('turnoManana');
+  const turnoTarde = document.getElementById('turnoTarde');
+
+  // Ocultar ambos campos de turno al inicio
+  turnoManana.style.display = 'none';
+  turnoTarde.style.display = 'none';
+
+  // Event listener para detectar el cambio en la selección del turno
+  seleccionTurno.addEventListener('change', function() {
+      if (seleccionTurno.value === 'Turno Mañana') {
+          turnoManana.style.display = 'block';
+          turnoTarde.style.display = 'none';
+      } else if (seleccionTurno.value === 'Turno Tarde') {
+          turnoTarde.style.display = 'block';
+          turnoManana.style.display = 'none';
+      }
+  });
+});
+
+//agenadar turnos en el local 
+document.addEventListener('DOMContentLoaded', function() {
+  const formulario = document.getElementById('formulario');
+  const fechaTurnoInput = document.getElementById('fechaTurno');
+  const claseInput = document.getElementById('Clase');
+  const seleccionTurnoInput = document.getElementById('seleccionTurno');
+  const turnoMananaInput = document.getElementById('turnoManana');
+  const turnoTardeInput = document.getElementById('turnoTarde');
+
+  formulario.addEventListener('submit', function(event) {
+    event.preventDefault(); // Evitar el envío del formulario
+
+    const confirmacionTurno = {
+      fecha: fechaTurnoInput.value,
+      clase: claseInput.value,
+      tipoTurno: seleccionTurnoInput.value,
+      turno: seleccionTurnoInput.value === 'Turno Mañana' ? turnoMananaInput.value : turnoTardeInput.value
     };
-  
-    usuarios.push(nuevoUsuario);
-  
-    console.log("Nuevo usuario registrado:", nuevoUsuario); 
-  
-    alert("¡Registro exitoso! Ahora puede iniciar sesión.");
-  
-    iniciarChatbot();
-  
-  }
-  
-  // Función para pedir el turno del usuario
-  function pedirTurno() {
-    alert(`${usuario.nombre}, siga los siguientes pasos para registrar su clase!`);
-    
-    // Agrega lógica para seleccionar la clase, el turno y el horario aquí
-    seleccionarClase();
-    seleccionarTurno();
-    seleccionarHorario();
-    
-    // Muestra la confirmación de registro
-    console.log("\n¡Registro exitoso!\n" + `Nombre: ${usuario.nombre}\nClase: ${usuario.clase}\nTurno: ${usuario.turno}\nHorario: ${usuario.horario}`);
-    alert("\n¡Registro exitoso!\n" + `Nombre: ${usuario.nombre}\nClase: ${usuario.clase}\nTurno: ${usuario.turno}\nHorario: ${usuario.horario}`);
-  }
-  
-  // Iniciar el chatbot
-  iniciarChatbot();
-  
-  // Función para seleccionar la clase
-  function seleccionarClase() {
-    //seleccionar clase
-    const opcion = prompt("A continuación elija el número de la clase a la que quiere asistir\n 1: Open Box\n 2: Sesión Fitness\n 3: Spinning\n 4: CrossFit");
-  
-    switch (opcion) {
-      case "1":
-        usuario.clase = "Open Box";
-        break;
-      case "2":
-        usuario.clase = "Sesión Fitness";
-        break;
-      case "3":
-        usuario.clase = "Spinning";
-        break;
-      case "4":
-        usuario.clase = "CrossFit";
-        break;
-      default:
-        usuario.clase = "Clase no válida";
-    }
-  }
-  
-  // Función para seleccionar el turno
-  function seleccionarTurno() {
-    //Seleccion de turno
-    const opcion = prompt("A continuación, escoja el turno en el que desea asistir:\n 1: Turno Mañana\n 2: Turno Tarde");
-  
-    switch (opcion) {
-      case "1":
-        usuario.turno = "Turno Mañana";
-        break;
-      case "2":
-        usuario.turno = "Turno Tarde";
-        break;
-      default:
-        usuario.turno = "Turno no válido";
-    }
-  }
-  
-  // Función para seleccionar el horario
-  function seleccionarHorario() {
-    if (usuario.turno === "Turno Mañana") {
-    //seleccionar horario turno mañana
-      const opcion = prompt("A continuación, elija el horario en el que desea asistir en la mañana:\n 1: 9 a 10 hs\n 2: 10 a 11 hs\n 3: 11 a 12 hs");
-  
-      switch (opcion) {
-        case "1":
-          usuario.horario = "9 a 10 hs";
-          break;
-        case "2":
-          usuario.horario = "10 a 11 hs";
-          break;
-        case "3":
-          usuario.horario = "11 a 12 hs";
-          break;
-        default:
-          usuario.horario = "Horario no válido";
-      }
-    } else if (usuario.turno === "Turno Tarde") {
-  
-      const opcion = prompt("A continuación, elija el horario en el que desea asistir en la tarde:\n 1: 14 a 15 hs\n 2: 15 a 16 hs\n 3: 17 a 18 hs");
-  
-      switch (opcion) {
-        case "1":
-          usuario.horario = "14 a 15 hs";
-          break;
-        case "2":
-          usuario.horario = "15 a 16 hs";
-          break;
-        case "3":
-          usuario.horario = "17 a 18 hs";
-          break;
-        default:
-          usuario.horario = "Horario no válido";
-      }
-    }
-  }
-  
-  }
-  
-  
+
+    // Obtener los turnos del localStorage o inicializar un array vacío si no hay datos
+    const turnosGuardados = JSON.parse(localStorage.getItem('turnos')) || [];
+
+    turnosGuardados.push(confirmacionTurno); // Agregar el turno confirmado al array de turnos
+
+    localStorage.setItem('turnos', JSON.stringify(turnosGuardados)); // Guardar en localStorage
+
+  // Limpiar el formulario o realizar otras acciones según sea necesario
+    alert(`Se ha registrado exitosamente el turno:\nFecha: ${confirmacionTurno.fecha}\nClase: ${confirmacionTurno.clase}\n ${confirmacionTurno.tipoTurno} : ${confirmacionTurno.turno}`);
+
+  });
+});
