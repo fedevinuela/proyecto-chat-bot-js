@@ -6,8 +6,23 @@
     <title>Loging</title>
 
     <style>
-      input {
-        display: block;
+      body {
+        text-align: center;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      input, button {
+        margin: 5px;
+      }
+
+      #nuevosInput {
+        display: none;
+        flex-direction: column;
       }
       
     </style>
@@ -18,14 +33,14 @@
       <h2>Inicie Sesión</h2>
       <input id="usuario" type="text" placeholder="Usuario" required/>
       <input id="contraseña" type="password" placeholder="Contraseña" required />
-      <button id="iniciarSesion" type="submit">Iniciar</button>
+      <input type="button" value="Ingresar" onclick="iniciarSesion()">
   </form>
 
   <form id="formularioRegistrar" style="padding-top: 20px;">
     <button id="nuevoUsuario" onclick="mostrarCampos()" type="button">Registrar nuevo usuario</button>
     <div id="nuevosInput" style="display: none;"> 
-      <input id="nombreUsuario" type="text" placeholder="Ingrese un nombre de usuario">
-      <input id="nuevaContraseña" type="password" placeholder="Ingrese una contraseña">
+      <input id="nombreUsuario" type="text" placeholder="Ingrese un nombre de usuario" required/>
+      <input id="nuevaContraseña" type="password" placeholder="Ingrese una contraseña" required/>
       <button onclick="crearNuevoUsuario()" id="crearUsuario" type="button">Crear Usuario</button>
     </div>
 
@@ -34,6 +49,7 @@
   <ul id="alumnos"></ul>
 
   <script src="main.js"></script>
+  
 
 </body>
 

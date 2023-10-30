@@ -1,17 +1,33 @@
 let usuarios = []; // Array para almacenar usuarios
+
 function obtenerProximoId() {
   return usuarios.length + 1;
 }
 
 function mostrarCampos() {
-    const nuevosInput = document.getElementById('nuevosInput');
-    nuevosInput.style.display = 'block'; // Mostrar los campos ocultos
+  const nuevosInput = document.getElementById('nuevosInput');
+  nuevosInput.style.display = 'block'; // Mostrar los campos ocultos
 }
 
-//funcion crear nuevos usuarios
+// Función para cargar usuarios desde el localStorage
+function cargarUsuariosDelLocalStorage() {
+  const usuariosGuardados = JSON.parse(localStorage.getItem('usuarios'));
+  if (usuariosGuardados) {
+    usuarios = usuariosGuardados;
+  }
+}
+
+// Llamar a la función para cargar usuarios desde el localStorage al inicio
+cargarUsuariosDelLocalStorage();
 
 function guardarUsuariosEnLocalStorage() {
   localStorage.setItem('usuarios', JSON.stringify(usuarios));
+}
+
+function recargarFormularios() {
+  document.getElementById('formularioIngresar').reset();
+  document.getElementById('formularioRegistrar').reset();
+  document.getElementById('nuevosInput').style.display = 'none';
 }
 
 function crearNuevoUsuario() {
@@ -19,9 +35,9 @@ function crearNuevoUsuario() {
   const nuevaContraseña = document.getElementById('nuevaContraseña').value;
 
   const nuevoUsuarioObj = {
-      id: obtenerProximoId(),
-      usuario: nuevoUsuario,
-      contraseña: nuevaContraseña
+    id: obtenerProximoId(),
+    usuario: nuevoUsuario,
+    contraseña: nuevaContraseña
   };
 
   usuarios.push(nuevoUsuarioObj);
@@ -30,6 +46,7 @@ function crearNuevoUsuario() {
   alert('¡Registro de usuario exitoso! Ahora puede iniciar sesión');
   console.log('Nuevo usuario creado:');
   console.log(nuevoUsuarioObj);
+  recargarFormularios();
 }
 
 // Función para iniciar sesión
@@ -45,9 +62,10 @@ function iniciarSesion() {
   });
 
   if (usuarioEncontrado) {
-    
-    window.location.href = './registro_turno.html';
+    localStorage.setItem('usuarioActual', usuarioEncontrado.usuario);
+    window.location.href = './turnos.html';
     alert('¡Bienvenido!');
+
   } else {
       alert('Usuario o contraseña incorrectos');
   }
@@ -117,7 +135,10 @@ document.addEventListener('DOMContentLoaded', function() {
   formulario.addEventListener('submit', function(event) {
     event.preventDefault(); // Evitar el envío del formulario
 
+    const usuarioActual = localStorage.getItem('usuarioActual');
+    
     const confirmacionTurno = {
+      usuario: usuarioActual,
       fecha: fechaTurnoInput.value,
       clase: claseInput.value,
       tipoTurno: seleccionTurnoInput.value,
@@ -131,8 +152,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     localStorage.setItem('turnos', JSON.stringify(turnosGuardados)); // Guardar en localStorage
 
-  // Limpiar el formulario o realizar otras acciones según sea necesario
-    alert(`Se ha registrado exitosamente el turno:\nFecha: ${confirmacionTurno.fecha}\nClase: ${confirmacionTurno.clase}\n ${confirmacionTurno.tipoTurno} : ${confirmacionTurno.turno}`);
+  // Confirmación del turno
+    alert(`Se ha registrado exitosamente el turno de ${usuarioActual}:\nFecha: ${confirmacionTurno.fecha}\nClase: ${confirmacionTurno.clase}\n ${confirmacionTurno.tipoTurno} : ${confirmacionTurno.turno}`);
+    window.location.reload();
+  });
+});
 
+document.addEventListener('DOMContentLoaded', function() {
+  const usuarioVigente = document.getElementById('usuarioVigente');
+  const usuario = localStorage.getItem('usuarioActual');
+  usuarioVigente.textContent = usuario || 'Usuario'; // Si no hay usuario, muestra 'Usuario'
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const usuarioVigente = document.getElementById('usuarioVigente');
+  const usuario = localStorage.getItem('usuarioActual');
+  usuarioVigente.textContent = usuario || 'Usuario'; // Si no hay usuario, muestra 'Usuario'
+
+  const cancelarButton = document.getElementById('reset');
+  cancelarButton.addEventListener('click', function() {
+      window.location.href = 'index.html'; // Redirecciona al index.html al hacer clic en el botón "Cancelar"
   });
 });

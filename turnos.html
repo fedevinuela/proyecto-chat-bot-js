@@ -4,10 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regsitro_de_turno</title>
+    <style>
+      body {
+        text-align: center;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      input, button {
+        margin: 5px;
+      }
+
+      #nuevosInput {
+        display: none;
+        flex-direction: column;
+      }
+      
+    </style>
 </head>
 <body>
     <h1>REGISTRO DE TURNOS</h1>
-    <h2>Usuario</h2>
+    <h2 id="usuarioVigente">Usuario</h2>
     <input type="date" id="fechaTurno" min="" max="" required>
     <form id="formulario" action="#" method="GET" enctype="multipart/form-data">
       <label>Seleccione la clase:</label>
@@ -38,11 +59,13 @@
 
       <h2>Confirmación de turno</h2>
       <input id="Reservar" type="submit" value="Reservar" />
-      <input id="reset" type="reset" value="Cancelar" />
+      <input id="reset" type="reset" value="Cerrar Sesion" />
     </form>
-    <ul id="alumnos"></ul>
 
-  </body>
-  
     <script src="main.js"></script>
+    
+    <script>
+
+    </script>
+  </body>  
 </html>
