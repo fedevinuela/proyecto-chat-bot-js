@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regsitro_de_turno</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
       body {
         text-align: center;
@@ -33,6 +34,7 @@
     <form id="formulario" action="#" method="GET" enctype="multipart/form-data">
       <label>Seleccione la clase:</label>
       <select name="clase" id="Clase" required>
+        <option>-</option>
         <option>Open Box</option>
         <option>Sesion Fitnes</option>
         <option>Spining</option>
@@ -41,17 +43,20 @@
       <h2>Selección de Turno</h2>
       <label>Seleccione la clase:</label>
       <select name="turno" id="seleccionTurno" required>
+        <option>-</option>
         <option>Turno Mañana</option>
         <option>Turno Tarde</option>
       </select>
       <h2>Turnos Disponibles</h2>
       <select name="turnoManana" id="turnoManana" required style="display: none;">
+        <option>-</option>
         <option>8 a 9 hs</option>
         <option>9 a 10 hs</option>
         <option>10 a 11 hs</option>
         <option>11 a 12 hs</option>
       </select>
       <select name="turnoTarde" id="turnoTarde" required style="display: none;">
+        <option>-</option>
         <option>14 a 15 hs</option>
         <option>15 a 16 hs</option>
         <option>16 a 17 hs</option>
@@ -60,12 +65,13 @@
       <h2>Confirmación de turno</h2>
       <input id="Reservar" type="submit" value="Reservar" />
       <input id="reset" type="reset" value="Cerrar Sesion" />
+      <input id="consultarTurnos" type="button" value="Consultar Turnos Reservados"/>
     </form>
 
-    <script src="main.js"></script>
+    <div id="turnosReservadosContainer"></div>
     
-    <script>
-
-    </script>
+    <script src="main.js"></script>
+  
   </body>  
+
 </html>

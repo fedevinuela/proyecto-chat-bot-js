@@ -42,8 +42,13 @@ function crearNuevoUsuario() {
 
   usuarios.push(nuevoUsuarioObj);
   guardarUsuariosEnLocalStorage(); // Guardar el array en el localStorage
+  swal({
+    title: "¡Registro de usuario exitoso!",
+    text: "Ahora puede iniciar sesión",
+    icon: "success",
+  });
 
-  alert('¡Registro de usuario exitoso! Ahora puede iniciar sesión');
+  //swal(' Ahora puede iniciar sesión');
   console.log('Nuevo usuario creado:');
   console.log(nuevoUsuarioObj);
   recargarFormularios();
@@ -58,16 +63,24 @@ function iniciarSesion() {
   const usuariosFromLocalStorage = JSON.parse(localStorage.getItem('usuarios')) || [];
 
   const usuarioEncontrado = usuariosFromLocalStorage.find(usuario => {
-      return usuario.usuario === usuarioInput && usuario.contraseña === contraseñaInput;
+    return usuario.usuario === usuarioInput && usuario.contraseña === contraseñaInput;
   });
 
   if (usuarioEncontrado) {
     localStorage.setItem('usuarioActual', usuarioEncontrado.usuario);
-    window.location.href = './turnos.html';
-    alert('¡Bienvenido!');
-
+    
+    swal({
+      title: "¡Bienvenido a la plataforma para registrar turnos!",
+      timer: 3000,
+    }).then(() => {
+      window.location.href = './turnos.html'; // Redirigir después de mostrar el mensaje
+    });
   } else {
-      alert('Usuario o contraseña incorrectos');
+    swal({
+      title: '¡Usuario o contraseña incorrecta!',
+      icon: 'warning',
+      button: 'Intentar nuevamente',
+    })
   }
 }
 
@@ -132,31 +145,75 @@ document.addEventListener('DOMContentLoaded', function() {
   const turnoMananaInput = document.getElementById('turnoManana');
   const turnoTardeInput = document.getElementById('turnoTarde');
 
-  formulario.addEventListener('submit', function(event) {
-    event.preventDefault(); // Evitar el envío del formulario
+  
+// Función para validar el formulario antes de guardar el turno
+function validarFormulario() {
+  return new Promise((resolve, reject) => {
+    const fechaTurnoInput = document.getElementById('fechaTurno');
+    const claseInput = document.getElementById('Clase');
+    const seleccionTurnoInput = document.getElementById('seleccionTurno');
+    const turnoMananaInput = document.getElementById('turnoManana');
+    const turnoTardeInput = document.getElementById('turnoTarde');
 
-    const usuarioActual = localStorage.getItem('usuarioActual');
-    
-    const confirmacionTurno = {
-      usuario: usuarioActual,
-      fecha: fechaTurnoInput.value,
-      clase: claseInput.value,
-      tipoTurno: seleccionTurnoInput.value,
-      turno: seleccionTurnoInput.value === 'Turno Mañana' ? turnoMananaInput.value : turnoTardeInput.value
-    };
-
-    // Obtener los turnos del localStorage o inicializar un array vacío si no hay datos
-    const turnosGuardados = JSON.parse(localStorage.getItem('turnos')) || [];
-
-    turnosGuardados.push(confirmacionTurno); // Agregar el turno confirmado al array de turnos
-
-    localStorage.setItem('turnos', JSON.stringify(turnosGuardados)); // Guardar en localStorage
-
-  // Confirmación del turno
-    alert(`Se ha registrado exitosamente el turno de ${usuarioActual}:\nFecha: ${confirmacionTurno.fecha}\nClase: ${confirmacionTurno.clase}\n ${confirmacionTurno.tipoTurno} : ${confirmacionTurno.turno}`);
-    window.location.reload();
+    // Verificar si se han seleccionado correctamente todos los campos
+    if (!fechaTurnoInput.value || !claseInput.value || !seleccionTurnoInput.value) {
+      reject('Por favor, complete todos los campos del formulario.');
+    } else if (
+      (seleccionTurnoInput.value === 'Turno Mañana' && turnoMananaInput.value === '-') ||
+      (seleccionTurnoInput.value === 'Turno Tarde' && turnoTardeInput.value === '-')
+    ) {
+      reject('Por favor, seleccione un horario disponible.');
+    } else {
+      resolve();
+    }
   });
+}
+
+
+// evento 'submit' del formulario
+formulario.addEventListener('submit', function (event) {
+  event.preventDefault(); // Evitar el envío del formulario
+  // Verificar si se seleccionó "-" en la opción de clase o turno
+  if (document.getElementById('Clase').value === '-' || document.getElementById('seleccionTurno').value === '-') {
+    alert('Por favor, seleccione una opción válida en Clase y Turno.');
+    return; // No ejecutar el resto del código si no se seleccionó una opción válida
+  }
+
+  validarFormulario()
+    .then(() => {
+      // Si la validación es exitosa, continuar con el código para guardar el turno
+      const usuarioActual = localStorage.getItem('usuarioActual');
+
+      const confirmacionTurno = {
+        usuario: usuarioActual,
+        fecha: fechaTurnoInput.value,
+        clase: claseInput.value,
+        tipoTurno: seleccionTurnoInput.value,
+        turno: seleccionTurnoInput.value === 'Turno Mañana' ? turnoMananaInput.value : turnoTardeInput.value
+      };
+
+      // Obtener los turnos del localStorage o inicializar un array vacío si no hay datos
+      const turnosGuardados = JSON.parse(localStorage.getItem('turnos')) || [];
+
+      turnosGuardados.push(confirmacionTurno); // Agregar el turno confirmado al array de turnos
+
+      localStorage.setItem('turnos', JSON.stringify(turnosGuardados)); // Guardar en localStorage
+
+      // Confirmación del turno
+      swal({
+        title: "¡Turno registrado!",
+        text: `Se ha registrado exitosamente el turno de ${usuarioActual}:\nFecha: ${confirmacionTurno.fecha}\nClase: ${confirmacionTurno.clase}\n ${confirmacionTurno.tipoTurno} : ${confirmacionTurno.turno}`,
+        icon: "success",
+      }).then(() => {
+        //mostrarTurnosReservados();
+      });
+    })
+    .catch((error) => {
+      // Mostrar mensaje de error en caso de validación fallida
+      alert('Error al guardar el turno: ' + error);
+    });
 });
+})
 
 document.addEventListener('DOMContentLoaded', function() {
   const usuarioVigente = document.getElementById('usuarioVigente');
@@ -174,3 +231,50 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.href = 'index.html'; // Redirecciona al index.html al hacer clic en el botón "Cancelar"
   });
 });
+
+// función para mostrar los turnos reservados por el usuario actual
+function mostrarTurnosReservados() {
+  const usuarioActual = localStorage.getItem('usuarioActual');
+  const turnosContainer = document.getElementById('turnosReservadosContainer');
+
+  // ACTUALIZAR LA FECha
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0); // Establecer la hora a las 00:00:00 para comparaciones de fecha
+
+  // Obtener los turnos del localStorage o inicializar un array vacío si no hay datos
+  const turnosGuardados = JSON.parse(localStorage.getItem('turnos')) || [];
+
+  // Filtrar los turnos para el usuario actual y con fecha igual o superior a hoy
+  const turnosFiltrados = turnosGuardados.filter(turno => {
+    const fechaTurno = new Date(turno.fecha);
+    fechaTurno.setHours(0, 0, 0, 0); // Establecer la hora a las 00:00:00 para comparaciones de fecha
+    return turno.usuario === usuarioActual && fechaTurno >= hoy;
+  });
+
+  if (turnosFiltrados.length > 0) {
+    let mensaje = `<h3>Turnos reservados por ${usuarioActual}:</h3>`;
+    turnosFiltrados.forEach(turno => {
+      mensaje += `<p>Fecha: ${turno.fecha}, Clase: ${turno.clase}, Tipo de Turno: ${turno.tipoTurno}, Hora: ${turno.turno}</p>`;
+    });
+
+    // Actualizar el contenido del contenedor
+    turnosContainer.innerHTML = mensaje;
+  } else {
+    // Si no hay turnos, mostrar un mensaje indicando que no hay turnos reservados
+    turnosContainer.innerHTML = `<p>No hay turnos reservados para mostrar.</p>`;
+  }
+}
+
+// Asociar la función a un botón en el HTML
+document.addEventListener('DOMContentLoaded', function() {
+  const consultarTurnosButton = document.getElementById('consultarTurnos');
+  consultarTurnosButton.addEventListener('click', function(event) {
+      mostrarTurnosReservados();
+    });
+});
+
+
+
+
+
+
