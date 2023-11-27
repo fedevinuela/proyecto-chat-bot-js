@@ -4,9 +4,10 @@ function obtenerProximoId() {
   return usuarios.length + 1;
 }
 
+// Mostrar los campos ocultos
 function mostrarCampos() {
   const nuevosInput = document.getElementById('nuevosInput');
-  nuevosInput.style.display = 'block'; // Mostrar los campos ocultos
+  nuevosInput.style.display = 'block'; 
 }
 
 // Función para cargar usuarios desde el localStorage
@@ -48,7 +49,6 @@ function crearNuevoUsuario() {
     icon: "success",
   });
 
-  //swal(' Ahora puede iniciar sesión');
   console.log('Nuevo usuario creado:');
   console.log(nuevoUsuarioObj);
   recargarFormularios();
@@ -102,7 +102,7 @@ function getFormattedDate(date) {
 document.addEventListener('DOMContentLoaded', function() {
     const fechaTurnoInput = document.getElementById('fechaTurno');
     
-    const hoy = new Date(); // Fecha actual
+    const hoy = new Date(); // fecha actual
     const sieteDiasDespues = new Date(hoy); // Fecha para los próximos 7 días
     sieteDiasDespues.setDate(sieteDiasDespues.getDate() + 7);
 
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const hoyFormateado = getFormattedDate(hoy);
     const sieteDiasDespuesFormateado = getFormattedDate(sieteDiasDespues);
 
-    // Establecer los atributos min y max en el campo de fecha
+    // atributos min y max en el campo de fecha
     fechaTurnoInput.min = hoyFormateado;
     fechaTurnoInput.max = sieteDiasDespuesFormateado;
 });
@@ -173,7 +173,7 @@ function validarFormulario() {
 // evento 'submit' del formulario
 formulario.addEventListener('submit', function (event) {
   event.preventDefault(); // Evitar el envío del formulario
-  // Verificar si se seleccionó "-" en la opción de clase o turno
+  // Verificar si no selecionó turno o clase
   if (document.getElementById('Clase').value === '-' || document.getElementById('seleccionTurno').value === '-') {
     alert('Por favor, seleccione una opción válida en Clase y Turno.');
     return; // No ejecutar el resto del código si no se seleccionó una opción válida
@@ -257,10 +257,10 @@ function mostrarTurnosReservados() {
       mensaje += `<p>Fecha: ${turno.fecha}, Clase: ${turno.clase}, Tipo de Turno: ${turno.tipoTurno}, Hora: ${turno.turno}</p>`;
     });
 
-    // Actualizar el contenido del contenedor
+    // actualizar el contenido del contenedor
     turnosContainer.innerHTML = mensaje;
   } else {
-    // Si no hay turnos, mostrar un mensaje indicando que no hay turnos reservados
+    // si no hay turnos, mostrar un mensaje indicando que no hay turnos reservados
     turnosContainer.innerHTML = `<p>No hay turnos reservados para mostrar.</p>`;
   }
 }

@@ -4,30 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regsitro_de_turno</title>
+    <link rel="stylesheet" href="style.css" >
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <style>
-      body {
-        text-align: center;
-      }
 
-      form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      input, button {
-        margin: 5px;
-      }
-
-      #nuevosInput {
-        display: none;
-        flex-direction: column;
-      }
-      
-    </style>
 </head>
 <body>
+  <div class="box-registro-turnos">
     <h1>REGISTRO DE TURNOS</h1>
     <h2 id="usuarioVigente">Usuario</h2>
     <input type="date" id="fechaTurno" min="" max="" required>
@@ -69,8 +51,9 @@
     </form>
 
     <div id="turnosReservadosContainer"></div>
-    
-    <script src="main.js"></script>
+  </div>
+
+  <script src="main.js"></script>
   
   </body>  
 

@@ -5,53 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loging</title>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <style>
-      body {
-        text-align: center;
-      }
+    <link rel="stylesheet" href="style.css" >
 
-      form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      input, button {
-        margin: 5px;
-      }
-
-      #nuevosInput {
-        display: none;
-        flex-direction: column;
-      }
-
-      .boton-alert{
-        color: yellow;
-      }
-      
-    </style>
 </head>
-<body>
-  <h1>Loging Usuario</h1>
-  <form id="formularioIngresar" action="#" method="GET" enctype="multipart/form-data">
-      <h2>Inicie Sesión</h2>
-      <input id="usuario" type="text" placeholder="Usuario" required/>
-      <input id="contraseña" type="password" placeholder="Contraseña" required />
-      <input type="button" value="Ingresar" onclick="iniciarSesion()">
-  </form>
+<body> 
 
-  <form id="formularioRegistrar" style="padding-top: 20px;">
-    <button id="nuevoUsuario" onclick="mostrarCampos()" type="button">Registrar nuevo usuario</button>
-    <div id="nuevosInput" style="display: none;"> 
-      <input id="nombreUsuario" type="text" placeholder="Ingrese un nombre de usuario" required/>
-      <input id="nuevaContraseña" type="password" placeholder="Ingrese una contraseña" required/>
-      <button onclick="crearNuevoUsuario()" id="crearUsuario" type="button">Crear Usuario</button>
-    </div>
+  <img class="logo" src="img/la-dolce-vita-box-1.png" alt="logo del gimnasio la dolce vita">
+  <div class="contenedor-login"> 
+    <h1>Login Usuario</h1>
+    <img class="avatar" src="img/user.png">
+    <form id="formularioIngresar" action="#" method="GET" enctype="multipart/form-data">
+        <input id="usuario" type="text" placeholder="Usuario" required/>
+        <input id="contraseña" type="password" placeholder="Contraseña" required />
+        <input class="boton-enviar" type="button" value="Ingresar" onclick="iniciarSesion()">
+    </form>
 
-  </form>
+    <form id="formularioRegistrar">
+      <button id="nuevoUsuario" onclick="mostrarCampos()" type="button">Registrar nuevo usuario</button>
+      <div id="nuevosInput"> 
+        <input id="nombreUsuario" type="text" placeholder="Ingrese un nombre de usuario" required/>
+        <input id="nuevaContraseña" type="password" placeholder="Ingrese una contraseña" required/>
+        <button class="boton-nuevo-usuario" onclick="crearNuevoUsuario()" id="crearUsuario" type="button">Crear Usuario</button>
+      </div>
 
-  <ul id="alumnos"></ul>
-
+    </form>
+  </div>
+  
   <script src="main.js"></script>
   
 

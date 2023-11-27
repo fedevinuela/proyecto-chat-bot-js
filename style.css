@@ -1,0 +1,104 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: url(img/open_box_2.jpg) no-repeat center top;
+  background-size: cover;
+  font-family: sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  width: 200px;
+  height: 150px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.contenedor-login {
+  text-align: center;
+  width: 320px;
+  height: 420px;
+  background-color: rgba(128, 128, 128, 0.301);
+  color: white;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 70px 30px;
+  box-sizing: border-box;
+}
+
+.contenedor-login .avatar {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: -50px;
+  left: calc(50% - 50px);
+}
+
+.contenedor-login h1 {
+  margin: 0;
+  padding: 0 0 20px;
+  text-align: center;
+}
+
+.contenedor-login form {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  display: block;
+}
+
+.contenedor-login form input {
+  width: 100%;
+  height: 25px;
+  margin-bottom: 15px;
+}
+
+.contenedor-login form .boton-enviar {
+  border: none;
+  outline: none;
+  height: 40px;
+  background-color: goldenrod;
+}
+
+.contenedor-login form .boton-nuevo-usuario {
+  border: none;
+  outline: none;
+  height: 20px;
+  background-color: goldenrod;
+}
+
+#nuevosInput {
+  display: none;
+  flex-direction: column;
+  padding-top: 10px;
+}
+
+.box-registro-turnos {
+  text-align: center;
+  background-color: rgba(128, 128, 128, 0.301);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40rem;
+}
+
+body .box-registro-turnos form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input, button {
+  margin: 5px;
+}
+
+#nuevosInput {
+  display: none;
+  flex-direction: column;
+}
